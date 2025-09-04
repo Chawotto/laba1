@@ -268,7 +268,7 @@ class MandelbrotSetTask extends Task<Long> {
      * @param comp a complex number used for calculation
      * @return number of iterations a value stayed within a given disk.
      */
-    
+
     public int calc(Complex comp) {
         int count = 0;
         Complex z = new Complex(comp.getRe(), comp.getIm());
