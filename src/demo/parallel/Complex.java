@@ -45,13 +45,13 @@ package demo.parallel;
  * @author Alexander Kouznetsov, Tristan Yan
  */
 public class Complex {
-    
+
     private double re;   // the real part
     private double im;   // the imaginary part
 
-    /** 
+    /**
      * create a new object with the given real and imaginary parts
-     * 
+     *
      * @param real a complex number real part
      * @param imag a complex number imaginary part 
      */
@@ -60,14 +60,22 @@ public class Complex {
         im = imag;
     }
 
+    public double getRe() {
+        return re;
+    }
+
+    public double getIm() {
+        return im;
+    }
+
     /**
      * Add operation.
      * @param b summand
      * @return this Complex object whose value is (this + b)
      */
     public Complex plus(Complex b) {
-        re += b.re;
-        im += b.im;
+        re += b.getRe();
+        im += b.getIm();
         return this;
     }
 
@@ -77,9 +85,36 @@ public class Complex {
      * @return this Complex object whose value is this * b
      */
     public Complex times(Complex b) {
-        Complex a = this;
-        double real = a.re * b.re - a.im * b.im;
-        double imag = a.re * b.im + a.im * b.re;
+        double real = re * b.getRe() - im * b.getIm();
+        double imag = re * b.getIm() + im * b.getRe();
+        re = real;
+        im = imag;
+        return this;
+    }
+
+    /**
+     * Subtract operation.
+     * @param b subtrahend
+     * @return this Complex object whose value is (this - b)
+     */
+    public Complex minus(Complex b) {
+        re -= b.getRe();
+        im -= b.getIm();
+        return this;
+    }
+
+    /**
+     * Divide operation.
+     * @param b divisor
+     * @return this Complex object whose value is this / b
+     */
+    public Complex divide(Complex b) {
+        double denominator = b.getRe() * b.getRe() + b.getIm() * b.getIm();
+        if (denominator == 0) {
+            throw new ArithmeticException("Division by zero");
+        }
+        double real = (re * b.getRe() + im * b.getIm()) / denominator;
+        double imag = (im * b.getRe() - re * b.getIm()) / denominator;
         re = real;
         im = imag;
         return this;
@@ -89,7 +124,7 @@ public class Complex {
      * Square of Complex object's length, we're using square of length to 
      * eliminate the computation of square root
      * @return square of length
-    */
+     */
     public double lengthSQ() {
         return re * re + im * im;
     }
